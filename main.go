@@ -2,8 +2,8 @@ package main
 
 import (
 	"context"
-	"database/sql"
-	con "messageServer/db"
+	//"database/sql"
+	//con "messageServer/db"
 	"net/http"
 	"os"
 	"os/signal"
@@ -15,8 +15,8 @@ import (
 	"github.com/gorilla/mux"
 )
 
-var db *sql.DB
-var message con.DbProp
+//var db *sql.DB
+//var message con.DbProp
 
 //initiating DB connection
 // func init() {
