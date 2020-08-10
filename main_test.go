@@ -7,9 +7,9 @@ import (
 	//"encoding/json"
 	"messageServer/utility"
 	//	"net"
-	//"net/http"
+	"net/http"
 
-	//"net/http/httptest"
+	"net/http/httptest"
 	"testing"
 
 	//. "github.com/smartystreets/goconvey/convey"
@@ -62,7 +62,7 @@ func loadMap() {
 //test function to check pass scenario
 func TestGetMessage(t *testing.T) {
 	loadMap()
-	assert.NotEmpty(t, mapLocker.dbMap[1])
+	assert.NotEmpty(t, mapLocker.dbMap)
 }
 
 //test function to check pass scenario
@@ -81,4 +81,51 @@ func TestDeleteOneMessageMap(t *testing.T) {
 func TestDeleteOneMessageMapPass(t *testing.T) {
 	err := DeleteOneMessageMap(1)
 	assert.NoError(t, err)
+}
+
+func TestGetOneMessageHandlerFail(t *testing.T) {
+	// Create a request to pass to our handler. We don't have any query parameters for now, so we'll
+	// pass 'nil' as the third parameter.
+	req, err := http.NewRequest("GET", "/getOneMessage?id=1", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	// We create a ResponseRecorder (which satisfies http.ResponseWriter) to record the response.
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(GetOneMessage)
+	// Our handlers satisfy http.Handler, so we can call their ServeHTTP method
+	// directly and pass in our Request and ResponseRecorder.
+	handler.ServeHTTP(rr, req)
+	// Check the status code is what we expect.
+	assert.Equal(t, rr.Code, 404)
+
+}
+func TestGetOneMessageHandlerpass(t *testing.T) {
+	// Create a request to pass to our handler. We don't have any query parameters for now, so we'll
+	// pass 'nil' as the third parameter.
+	req, err := http.NewRequest("GET", "/getOneMessage?id=2", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	// We create a ResponseRecorder (which satisfies http.ResponseWriter) to record the response.
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(GetOneMessage)
+	// Our handlers satisfy http.Handler, so we can call their ServeHTTP method
+	// directly and pass in our Request and ResponseRecorder.
+	handler.ServeHTTP(rr, req)
+	// Check the status code is what we expect.
+	if status := rr.Code; status != http.StatusOK {
+		t.Errorf("handler returned wrong status code: got %v want %v",
+			status, http.StatusOK)
+	}
+	// Check the response body is what we expect.
+	expected := `{
+		Message:     "madam",
+		Description: "hello hi",
+		User:        "vijay",
+	}`
+	if rr.Body.String() != expected {
+		t.Errorf("handler returned unexpected body: got %v want %v",
+			rr.Body.String(), expected)
+	}
 }
