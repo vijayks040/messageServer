@@ -4,7 +4,7 @@
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
-This Go code was added to support the POC or the CASE-STUDY given for an interview.
+This Go code was added to test GO skills.
 
 # Pre-requisites!
 
@@ -27,21 +27,44 @@ curl --location --request POST 'http://localhost:8080/addMessage' \
 
 **List Message**: 
 
-```curl --location --request POST 'http://localhost:8080/addMessage' \
---header 'Content-Type: text/plain' \
---data-raw '{
-    "message": "madam",
-    "description": "hello",
-    "user": "vijay"
-}'
+```
+Request:
+URL: http://localhost:8080/listMessage Method: GET
+Respone: In Json format
+{
+    "1": {
+        "id": 1,
+        "message": "madam",
+        "description": "hello",
+        "user": "vijay"
+    },
+    "2": {
+        "id": 2,
+        "message": "hello hi aws",
+        "description": "hi",
+        "user": "qlik"
+    }
+}
+
 ```
 
 **Get One Message**: Using Message ID
-```curl --location --request GET 'http://localhost:8080/getOneMessage?id=1'```
+```Request: 
+URL: http://localhost:8080/getOneMessage?id=1 METHOD: GET
+Response: In Json format
+{
+    "id": 1,
+    "message": "madam",
+    "description": "hello",
+    "user": "vijay"
+}
+```
 
 **Delete message**: Using message ID
 ```
-curl --location --request DELETE 'http://localhost:8080/deleteOneMessage?id=1'
+Request:
+URL: http://localhost:8080/deleteOneMessage?id=1 METHOD: DELETE
+Response: Http Status code
 ```
 ### Executables
 
@@ -50,8 +73,9 @@ Both the windows and linux platform executables have been provided along with so
 | Platform | Executable |
 | ------ | ------ |
 | Windows7 and higher version | main.exe (Run using admin permissions) |
-| Linux | target_linux (with sudo on run ./main command in terminal) |
+| Linux | main (with sudo on run ./main command in terminal) |
 | Docker Image | docker pull vijayks040/messageserver:demo |
+| Aws Host     | http://ec2-100-27-2-88.compute-1.amazonaws.com:8080  |
 
 ### Development Environment
 
@@ -72,7 +96,7 @@ Want to contribute? Great!
  - This App is also having the code to interact with DB for all the Message Operations
  - Using dependancy management **dep**
  
- ### NOTE: This App has been hosted in AWS ec2 instance
+ ### NOTE: This App has been hosted in AWS ec2 instance with url ec2-100-27-2-88.compute-1.amazonaws.com
 
 License
 ----
